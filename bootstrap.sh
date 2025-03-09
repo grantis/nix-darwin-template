@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eo pipefail
 
-REPO_URL="https://github.com/YOUR_USERNAME/nix-macos-bootstrap"
+REPO_URL="https://github.com/grantis/nix-darwin-template.git"
 SETUP_DIR="$HOME/.nix-bootstrap"
 
 echo "=== macOS Nix Development Environment Bootstrap ==="
@@ -29,10 +29,10 @@ else
 fi
 
 # Make scripts executable
-chmod +x setup-nix-dev.sh
+chmod +x install.sh
 
 # Run the setup script
-./setup-nix-dev.sh
+./install.sh
 
 echo "Bootstrap complete! Your Nix development environment is ready."
 echo "You may need to restart your terminal to apply all changes."
