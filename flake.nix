@@ -15,8 +15,8 @@
 
   outputs = inputs@{ darwin, home-manager, nixpkgs, ... }:
   let
-    user = "$(whoami)";
-    hostname = "$(scutil --get ComputerName)";
+    username = "REPLACE_USERNAME";
+    hostname = "REPLACE_HOSTNAME";
   in
   {
     darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
@@ -26,7 +26,7 @@
           # Core system configuration
           nix.settings = {
             experimental-features = "nix-command flakes";
-            trusted-users = ["root" "${user}"];
+            trusted-users = ["root" username];
           };
 
           services.nix-daemon.enable = true;
@@ -73,7 +73,9 @@
           };
 
           # User environment configuration
-          home-manager.users."${user}" = { config, lib, ... }: {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users."${username}" = { config, lib, ... }: {
             home.packages = with pkgs; [
               # Development tools
               nodejs_20 bun deno python311 
@@ -280,8 +282,14 @@
             };
             
             home.file.".config/nvim/.keep".text = "";
+            
+            # This value determines the Home Manager release that your configuration is
+            # compatible with. This helps avoid breakage when a new Home Manager release
+            # introduces backwards incompatible changes.
+            home.stateVersion = "23.11";
           };
         })
+        home-manager.darwinModules.home-manager
       ];
     };
   };
